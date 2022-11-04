@@ -79,4 +79,4 @@ export class App extends React.Component {
 //         fontSize: 40,
 //         color: '#010101'
 //       }}
-    {/* {this.state.pokemon && (<div>{this.state.pokemon.name}</div>)} */}
+  
