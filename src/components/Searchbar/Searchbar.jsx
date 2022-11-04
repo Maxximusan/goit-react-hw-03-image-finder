@@ -1,7 +1,10 @@
 import PropTypes from "prop-types";
 import { Component } from 'react'
-// import { toast } from 'react-toastify';
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { BiSearchAlt2 } from "react-icons/bi";
+ 
+import css from 'components/Searchbar/Searchbar.module.css'
 
 export class Searchbar extends Component {
 
@@ -18,8 +21,8 @@ handleNameChange = event => {
      event.preventDefault();
 
      if (this.state.searchQuery.trim() === '') {
-        //  toast.info('Enter something.');
-         alert('WHAT A FUCK? Enter Something')
+         toast.info('Enter something.');
+        //  alert('WHAT A FUCK? Enter Something')
          return;
      }
 
@@ -31,14 +34,14 @@ handleNameChange = event => {
 render() {
     return (
     <>
-<header className="searchbar">
-  <form className="form" onSubmit={this.handleSubmit}>
-    <button type="submit" className="button">
-      <span className="button-label">Search</span>
+<header className={css.Searchbar}>
+  <form className={css.SearchForm} onSubmit={this.handleSubmit}>
+    <button type="submit" className={css.SearchForm__button}>
+                        <span className={css.SearchForm__button_label}><BiSearchAlt2 size={30} /></span>
     </button>
 
     <input
-      className="input"
+      className={css.SearchForm__input}
       type="text"
                 value={this.state.searchQuery}
                 onChange={this.handleNameChange}

@@ -1,5 +1,5 @@
 import React from 'react';
-// import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import { apiFetchGallery } from 'Api/ApiPixabay'
 import { Searchbar } from 'components/Searchbar/Searchbar'
 
@@ -53,7 +53,7 @@ export class App extends React.Component {
       <div>
         {this.state.data && (<div>FUCKING API FUCKING CODE</div>)}
         <Searchbar onSubmit={this.onSubmit} />
-        {/* <ToastContainer
+        <ToastContainer
           position="top-right"
           autoClose={3000}
           hideProgressBar={false}
@@ -64,7 +64,7 @@ export class App extends React.Component {
           draggable
           pauseOnHover
           theme="colored"
-        /> */}
+        />
     </div>
     );
   }
