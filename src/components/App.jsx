@@ -1,11 +1,20 @@
 import React from 'react';
-import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 import { apiFetchGallery } from 'Api/ApiPixabay'
 import { Searchbar } from 'components/Searchbar/Searchbar'
 import { ImageGallery } from 'components/ImageGallery/ImageGallery'
-// иодалку сделаю как репета показывад.
-// иконка?
+import { Button } from 'components/Button/Button'
+import { Loader } from 'components/Loader/Loader'
+import css from 'components/App.module.css'
+import {ErrorReject} from 'components/ErrorRjected'
 
+// const Status = {
+//   IDLE: 'idle',
+//   PENDING: 'pending',
+//   RESOLVED: 'resolved',
+//   REJECTED: 'rejected'
+// }
 
 export class App extends React.Component {
   state = {
@@ -13,9 +22,10 @@ export class App extends React.Component {
     searchQuery: 'q',
     page: 1,
     images: [],
-    totalHits: 1,
-    isLoaded: false,
-    error:'',
+    totalHits: 0,
+    error: '',
+    // status: Status.IDLE,
+    isLoading: false
     
   }
   componentDidMount() {
@@ -46,11 +56,12 @@ export class App extends React.Component {
     console.log(nextImages);
     console.log(prevPage);
     console.log(nextPage);
+
     if (prevImages !== nextImages) {
       
       
       this.setState({
-        
+        // isLoading: false,
         page: 1,
         images: [],
       });
@@ -59,37 +70,55 @@ export class App extends React.Component {
 
     if (prevPage !== nextPage && nextPage !== 1) {
       this.fetchGallery(nextImages, nextPage);
+     
     }
 
+     if (this.state.error.length > 0 ) {
+        toast.error(this.state.error)
+        }
+    
   }
   
   fetchGallery(nextImages, nextPage) {
     apiFetchGallery(nextImages, nextPage)
       .then(
         (result) => {
+
           this.setState(prevState => {
             return {
-              isLoaded: true,
+              isLoading: false,
               images: [...prevState.images, ...result.data.hits],
               prevState,
               totalHits: result.data.totalHits,
               searchQuery: nextImages
             };
+
           });
+          if (result.data.totalHits === 0) {
+            throw new Error ('Nothing found for your request, please, try again something else')
+          }
+            
           console.log(this.state.images);
           console.log(this.state.totalHits);
           console.log(this.state.searchQuery);
         })
-    .catch(error => this.setState({error}))
+    .catch(error => this.setState({error: error.message}) )
 
   }
 
 
   onSubmit = searchQuery => {
-    this.setState({ searchQuery, page: 1 });
+    this.setState({ searchQuery, page: 1, isLoading: true, error:''});
     console.log(searchQuery);
+    
  };
 
+  onLoadMore = () => {
+     this.setState(prevState => ({
+       page: prevState.page + 1,
+       isLoading: true
+    }));
+  }
   // async onSubmit() {
   //   const { searchQuery } = this.state
   //   try {
@@ -103,27 +132,43 @@ export class App extends React.Component {
   // }
   
   render() {
-    const { images } = this.state
+    const { images, error, totalHits, isLoading} = this.state
+
+    // if (status === Status.IDLE) {
+    //   return (
+    //   <>
+    //     <Searchbar onSubmit={this.onSubmit} />
+    //   </>
+    // )}
+
+    // if (status === Status.PENDING) {
+    // return <Loader />;
+    // }
+    
+    // if (status === Status.REJECTED) {
+    //   return 
+    //   // return toast.error('Nothing found for your request, please, try again something else')
+    //   // return <ErrorReject />
+    //   // return <>{error && toast.error('Error, try again later!')}</>
+      
+    // }
+
+    // if (status === Status.RESOLVED) {
+      
     return (
-      <div>
-        {/* {this.state.data && (<div>FUCKING API FUCKING CODE</div>)} */}
+      <div className={css.App}>
+         
         <Searchbar onSubmit={this.onSubmit} />
-        <ImageGallery images={images } />
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
+        <ErrorReject errorMessage={error} />
+        <ImageGallery images={images} />
+        { isLoading && <Loader />}
+        {images.length !== totalHits && (
+          <Button loadMore={this.onLoadMore} />)}
+       
     </div>
-    );
-  }
+      );
+      }
+  // }
 };
 
 

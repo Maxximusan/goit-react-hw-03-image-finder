@@ -10,7 +10,7 @@ export class Searchbar extends Component {
 
 state = {
     searchQuery: '',
-    page: 1,
+    // page: 1,
     }
     
 handleNameChange = event => {
@@ -26,7 +26,7 @@ handleNameChange = event => {
          return;
      }
 
-     this.setState({ searchQuery: '', page: 1 });
+     this.setState({ searchQuery: '' });
      this.props.onSubmit(this.state.searchQuery)
     };
 
@@ -37,7 +37,7 @@ render() {
 <header className={css.Searchbar}>
   <form className={css.SearchForm} onSubmit={this.handleSubmit}>
     <button type="submit" className={css.SearchForm__button}>
-                        <span className={css.SearchForm__button_label}><BiSearchAlt2 size={30} /></span>
+           <span className={css.SearchForm__button_label}><BiSearchAlt2 size={30} /></span>
     </button>
 
     <input
