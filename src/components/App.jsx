@@ -2,7 +2,7 @@ import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import { apiFetchGallery } from 'Api/ApiPixabay'
 import { Searchbar } from 'components/Searchbar/Searchbar'
-
+import { ImageGallery } from 'components/ImageGallery/ImageGallery'
 // иодалку сделаю как репета показывад.
 // иконка?
 
@@ -12,7 +12,7 @@ export class App extends React.Component {
    
     searchQuery: 'q',
     page: 1,
-    images: null,
+    images: [],
     totalHits: 1,
     isLoaded: false,
     error:'',
@@ -103,10 +103,12 @@ export class App extends React.Component {
   // }
   
   render() {
+    const { images } = this.state
     return (
       <div>
-        {this.state.data && (<div>FUCKING API FUCKING CODE</div>)}
+        {/* {this.state.data && (<div>FUCKING API FUCKING CODE</div>)} */}
         <Searchbar onSubmit={this.onSubmit} />
+        <ImageGallery images={images } />
         <ToastContainer
           position="top-right"
           autoClose={3000}
