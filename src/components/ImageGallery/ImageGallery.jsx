@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import css from 'components/ImageGallery/ImageGallery.module.css'
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem'
 
-// пропс на модалку, его в компонент айтем, проптайп.
+
 export const ImageGallery = (props) => {
 const { images } = props
 
@@ -23,6 +23,6 @@ const { images } = props
 }
 
 ImageGallery.propTypes = {
-    images: PropTypes.array,
-    // проп модалки
+    images: PropTypes.arrayOf(PropTypes.object)
+    
 }

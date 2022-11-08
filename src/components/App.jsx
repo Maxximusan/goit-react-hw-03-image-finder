@@ -7,7 +7,8 @@ import { ImageGallery } from 'components/ImageGallery/ImageGallery'
 import { Button } from 'components/Button/Button'
 import { Loader } from 'components/Loader/Loader'
 import css from 'components/App.module.css'
-import {ErrorReject} from 'components/ErrorRjected'
+import { ErrorReject } from 'components/ErrorRjected'
+// import { Modal } from 'components/Modal/Modal'
 
 // const Status = {
 //   IDLE: 'idle',
@@ -25,7 +26,10 @@ export class App extends React.Component {
     totalHits: 0,
     error: '',
     // status: Status.IDLE,
-    isLoading: false
+    isLoading: false,
+    // showModal: false,
+    // largeImageURL: '',
+    // bigImage: '',
     
   }
   componentDidMount() {
@@ -119,6 +123,16 @@ export class App extends React.Component {
        isLoading: true
     }));
   }
+
+  // toggleModal = () => {
+  //   this.setState(state => ({
+  //     showModal: !state.showModal,
+     
+  //   }))
+  // }
+
+
+
   // async onSubmit() {
   //   const { searchQuery } = this.state
   //   try {
@@ -132,7 +146,7 @@ export class App extends React.Component {
   // }
   
   render() {
-    const { images, error, totalHits, isLoading} = this.state
+    const { images, error, totalHits, isLoading, showModal} = this.state
 
     // if (status === Status.IDLE) {
     //   return (
@@ -161,10 +175,11 @@ export class App extends React.Component {
         <Searchbar onSubmit={this.onSubmit} />
         <ErrorReject errorMessage={error} />
         <ImageGallery images={images} />
+        {/* {showModal && <Modal onClickModal={this.toggleModal} largeImageURL={bigImage}/>} */}
         { isLoading && <Loader />}
         {images.length !== totalHits && (
           <Button loadMore={this.onLoadMore} />)}
-       
+        
     </div>
       );
       }

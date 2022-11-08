@@ -1,19 +1,39 @@
 import PropTypes from "prop-types";
+import React, { Component } from 'react'
 import css from 'components/ImageGalleryItem/ImageGalleryItem.module.css'
-// пропс для модалки, в img его и в проптайп
-export const ImageGalleryItem = (props) => {
-const {id, webformatURL, largeImageURL, alt} = props
+import { Modal } from 'components/Modal/Modal'
+
+
+
+export class ImageGalleryItem extends Component {
+
+    state = {
+        showModal: false,
+    }
+
+    toggleModal = () => {
+    this.setState(prevState => ({
+      showModal: !prevState.showModal,
+     
+    }))
+    }
+    
+    render() {
+const {id, webformatURL, largeImageURL, alt} = this.props
+
     return (
         <li key={id} className={css.ImageGalleryItem}>
             <img
                 className={css.ImageGalleryItem__image}
                 src={webformatURL}
                 alt={alt}
-                dataformodal={largeImageURL} />
+                onClick={this.toggleModal}
+                 />
+            {this.state.showModal && <Modal onClickModal={this.toggleModal} src={ largeImageURL } alt={alt} />}
 </li>
     )
 }
-
+}
 
 ImageGalleryItem.propTypes = {
     id: PropTypes.number,
