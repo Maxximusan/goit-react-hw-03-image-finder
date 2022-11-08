@@ -175,7 +175,7 @@ export class App extends React.Component {
         <Searchbar onSubmit={this.onSubmit} />
         <ErrorReject errorMessage={error} />
         <ImageGallery images={images} />
-        {/* {showModal && <Modal onClickModal={this.toggleModal} largeImageURL={bigImage}/>} */}
+        
         { isLoading && <Loader />}
         {images.length !== totalHits && (
           <Button loadMore={this.onLoadMore} />)}
