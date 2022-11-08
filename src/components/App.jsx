@@ -146,7 +146,7 @@ export class App extends React.Component {
   // }
   
   render() {
-    const { images, error, totalHits, isLoading, showModal} = this.state
+    const { images, error, totalHits, isLoading,} = this.state
 
     // if (status === Status.IDLE) {
     //   return (
