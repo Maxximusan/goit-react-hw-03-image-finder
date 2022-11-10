@@ -20,10 +20,8 @@ export class App extends React.Component {
     error: '',
     isLoading: false,
     
-    
   }
   
-
   
   componentDidUpdate(prevProps, prevState) { 
     const prevImages = prevState.searchQuery;
@@ -34,11 +32,6 @@ export class App extends React.Component {
 
     if (prevImages !== nextImages || prevPage !== nextPage) {
       
-      
-      this.setState({
-        page: 1,
-        images: [],
-      });
       this.fetchGallery(nextImages, nextPage);
     }
 
@@ -53,14 +46,13 @@ export class App extends React.Component {
     apiFetchGallery(nextImages, nextPage)
       .then(
         (result) => {
-
+             
           this.setState(prevState => {
             return {
               isLoading: false,
               images: [...prevState.images, ...result.data.hits],
-              prevState,
               totalHits: result.data.totalHits,
-              searchQuery: nextImages
+              
             };
 
           });
@@ -75,7 +67,8 @@ export class App extends React.Component {
 
 
   onSubmit = searchQuery => {
-    this.setState({ searchQuery, page: 1, isLoading: true, error:''});
+   
+    this.setState({ searchQuery, page: 1, isLoading: true, error:'', images: []});
     console.log(searchQuery);
     
  };
@@ -91,8 +84,7 @@ export class App extends React.Component {
   
   render() {
     const { images, error, totalHits, isLoading,} = this.state
-
-    
+  
       
     return (
       <div className={css.App}>
@@ -102,7 +94,7 @@ export class App extends React.Component {
         <ImageGallery images={images} />
         
         { isLoading && <Loader />}
-        {images.length !== totalHits && (
+        {images.length !== totalHits && !isLoading && (
           <Button loadMore={this.onLoadMore} />)}
         
     </div>
